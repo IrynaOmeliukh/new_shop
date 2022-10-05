@@ -2,10 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 const ARRAY = []
 export default class extends Controller {
   toggleToCart(e){
-    this.toggleToCart(ARRAY, this.element.id);
+    toggle(ARRAY, this.element.id);
     console.log(ARRAY);
   }
 }
+
 
 function toggle(array, value){
   var index = array.indexOf(value);

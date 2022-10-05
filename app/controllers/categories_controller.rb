@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   def index
-    @categories = Category.all
+    @categories = collection
   end
 
   def new
@@ -10,38 +10,45 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new categories_params
     if @category.save
-      redirect_to categories_path
+      redirect_to categories_path, notice: 'Category was successfully created.'
     else
       render :new
     end
   end
 
   def edit
-    @category = Category.find_by id: params[:id]
-    # id: - name of column in db, params - об'єкт зі всіма параметрами запиту,
-    # :id - параметр запиту
+    @category = resource
   end
 
   def update
-    @category = Category.find_by id: params[:id]
+    @category = resource
+
     if @category.update categories_params
-      redirect_to categories_path
+      redirect_to categories_path, notice: 'Category was successfully updated.'
     else
       render :edit
     end
   end
 
   def destroy
-    @category = Category.find_by id: params[:id]
+    @category = resource
     @category.destroy
-    redirect_to categories_path
+    redirect_to categories_path, notice: 'Category was successfully destroyed.'
   end
 
   def show
-    @category = Category.find_by id: params[:id]
+    @category = resource
   end
 
   private
+
+  def collection
+    Category.all
+  end
+
+  def resource
+    collection.find(params[:id])
+  end
 
   def categories_params
     params.require(:category).permit(:name)
