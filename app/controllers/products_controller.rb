@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = collection
+    @cart = Product.find(session[:cart])
   end
 
   # GET /products/1 or /products/1.json
@@ -49,18 +50,37 @@ class ProductsController < ApplicationController
     redirect_to products_url, notice: "Product was successfully destroyed."
   end
 
+  def add_to_cart
+    session[:cart] ||= []
+    id = params[:id].to_i
+
+    session[:cart] << id unless session[:cart].include?(id)
+    redirect_to root_path, notice: "Product was successfully added to cart."
+  end
+
+  def remove_from_cart
+    id = params[:id].to_i
+    session[:cart].delete(id)
+
+    redirect_to root_path, notice: "Product was successfully removed."
+  end
+
+  # def show_cart
+  #   @cart = Product.find(session[:cart])
+  # end
+
   private
 
-    def collection
-      Product.all
-    end
+  def collection
+    Product.all
+  end
 
-    def resource
-      collection.find(params[:id])
-    end
+  def resource
+    collection.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def product_params
-      params.require(:product).permit(:name, :category_id, :price, :status)
-    end
+  # Only allow a list of trusted parameters through.
+  def product_params
+    params.require(:product).permit(:name, :category_id, :price, :status)
+  end
 end
