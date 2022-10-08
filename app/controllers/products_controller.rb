@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = collection
-    @cart = Product.find(session[:cart])
+    # @cart = Product.find(session[:cart])
   end
 
   # GET /products/1 or /products/1.json
@@ -54,7 +54,8 @@ class ProductsController < ApplicationController
     session[:cart] ||= []
     id = params[:id].to_i
 
-    session[:cart] << id unless session[:cart].include?(id)
+    session[:cart] << {id: id, quantity: } unless session[:cart].include?(id)
+
     redirect_to root_path, notice: "Product was successfully added to cart."
   end
 
