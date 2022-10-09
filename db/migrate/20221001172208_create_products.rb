@@ -1,6 +1,6 @@
 class CreateProducts < ActiveRecord::Migration[7.0]
   def change
-    create_enum :status, [
+    create_enum :product_status, [
       'out_of_stock',
       'in_stock',
       'running_low'
@@ -11,7 +11,7 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.decimal :price, precision: 8, scale: 2, null: false
       t.enum(
         :status,
-        enum_type: :status,
+        enum_type: :product_status,
         default: :in_stock,
         null: false
       )

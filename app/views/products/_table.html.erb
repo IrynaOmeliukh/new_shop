@@ -37,11 +37,11 @@
           <% if action_name != "show" %>
             <%= link_to 'Show', product, class:"bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"%>
             <%= link_to 'Edit', edit_product_path(product), class:"bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" %>
-            <%# <% if @cart.include?(product) %>
-              <%# <%= button_to 'Remove from cart', remove_from_cart_path(product), method: :delete %>
-            <%# <% else %>
-              <%# <%= button_to 'Add to cart', add_to_cart_path(product.id), class:"bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-2 mt-3 border border-blue-500 hover:border-transparent rounded" %>
-            <%# <% end %>
+            <% if @cart.include?(product)%>
+              <%= button_to 'Remove from cart', remove_from_cart_path(product), method: :delete %>
+             <% else %>
+              <%= button_to 'Add to cart', add_to_cart_path(product.id), class:"bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-2 mt-3 border border-blue-500 hover:border-transparent rounded" %>
+            <% end %>
           <% end %>
         </td>
       </tr>

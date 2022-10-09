@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_08_083222) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_09_134432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "status", ["out_of_stock", "in_stock", "running_low"]
+  create_enum "order_status", ["new_order", "packaging", "deliver_in_process", "done"]
+  create_enum "product_status", ["out_of_stock", "in_stock", "running_low"]
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -24,14 +25,28 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_08_083222) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.enum "status", default: "new_order", null: false, enum_type: "order_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "category_id"
     t.decimal "price", precision: 8, scale: 2, null: false
-    t.enum "status", default: "in_stock", null: false, enum_type: "status"
+    t.enum "status", default: "in_stock", null: false, enum_type: "product_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
+  create_table "products_orders", force: :cascade do |t|
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,8 +57,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_08_083222) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "products", "categories"
 end
