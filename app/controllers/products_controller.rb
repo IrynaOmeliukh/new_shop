@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-
   # GET /products or /products.json
   def index
     @products = collection
@@ -30,11 +29,11 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-      if @product.save
-      redirect_to product_url(@product), notice: "Product was successfully created."
-      else
+    if @product.save
+      redirect_to product_url(@product), notice: 'Product was successfully created.'
+    else
       render :new, status: :unprocessable_entity
-      end
+    end
   end
 
   # PATCH/PUT /products/1 or /products/1.json
@@ -42,7 +41,7 @@ class ProductsController < ApplicationController
     @product = resource
 
     if @product.update(product_params)
-      redirect_to product_url(@product), notice: "Product was successfully updated."
+      redirect_to product_url(@product), notice: 'Product was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -51,23 +50,27 @@ class ProductsController < ApplicationController
   # DELETE /products/1 or /products/1.json
   def destroy
     @product = resource
+
+    id = params[:id].to_i
+    session[:cart].delete(id)
+
     @product.destroy
 
-    redirect_to products_url, notice: "Product was successfully destroyed."
+    redirect_to products_url, notice: 'Product was successfully destroyed.'
   end
 
   def add_to_cart
     id = params[:id].to_i
     session[:cart] << id unless session[:cart].include?(id)
 
-    redirect_to root_path, notice: "Product was successfully added to cart."
+    redirect_to root_path, notice: 'Product was successfully added to cart.'
   end
 
   def remove_from_cart
     id = params[:id].to_i
     session[:cart].delete(id)
 
-    redirect_to root_path, notice: "Product was successfully removed."
+    redirect_to root_path, notice: 'Product was successfully removed.'
   end
 
   private
