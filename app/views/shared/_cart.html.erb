@@ -1,0 +1,11 @@
+<% if @cart.empty? %>
+  <p class="text-black">No items in the cart</p>
+<% else %>
+  <ul class="text-black">
+    <% @cart.each do |product| %>
+      <li><%= product.name %>
+      <p><%= button_to 'Remove from cart', remove_from_cart_path(product), method: :delete %></p>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

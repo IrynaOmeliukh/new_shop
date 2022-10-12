@@ -1,24 +1,29 @@
 class ProductsController < ApplicationController
+
   # GET /products or /products.json
   def index
     @products = collection
-    session[:cart] ||= []
-    @cart = Product.find(session[:cart])
+    # @cart = initialize_cart
+
+    @order = initialize_order
   end
 
   # GET /products/1 or /products/1.json
   def show
     @product = resource
+    # @cart = initialize_cart
   end
 
   # GET /products/new
   def new
     @product = Product.new
+    # @cart = initialize_cart
   end
 
   # GET /products/1/edit
   def edit
     @product = resource
+    # @cart = initialize_cart
   end
 
   # POST /products or /products.json
@@ -52,9 +57,7 @@ class ProductsController < ApplicationController
   end
 
   def add_to_cart
-    session[:cart] ||= []
     id = params[:id].to_i
-
     session[:cart] << id unless session[:cart].include?(id)
 
     redirect_to root_path, notice: "Product was successfully added to cart."
@@ -67,10 +70,6 @@ class ProductsController < ApplicationController
     redirect_to root_path, notice: "Product was successfully removed."
   end
 
-  # def show_cart
-  #   @cart = Product.find(session[:cart])
-  # end
-
   private
 
   def collection
@@ -79,6 +78,10 @@ class ProductsController < ApplicationController
 
   def resource
     collection.find(params[:id])
+  end
+
+  def initialize_order
+    Order.new
   end
 
   # Only allow a list of trusted parameters through.
