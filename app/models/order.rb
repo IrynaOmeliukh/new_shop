@@ -6,6 +6,5 @@ class Order < ApplicationRecord
     'Done': 'done'
   }, default: 'new_order'
 
-  has_many :products_orders
-  has_many :products, through: :products_orders
+  has_and_belongs_to_many :products
 end

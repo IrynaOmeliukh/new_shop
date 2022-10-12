@@ -4,8 +4,8 @@ class Product < ApplicationRecord
     'In stock': 'in_stock',
     'Running low': 'running_low'
     }, default: 'in_stock'
+
   belongs_to :category
-  has_many :products_orders
-  has_many :orders, through: :products_orders
+  has_and_belongs_to_many :orders
 
 end

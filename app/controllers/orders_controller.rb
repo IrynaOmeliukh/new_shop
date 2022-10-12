@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
     collection.find(params[:id])
   end
 
-  def categories_params
-    params.require(:order).permit(:first_name, :last_name, :phone, :address )
+  def orders_params
+    params.permit(:first_name, :last_name, :phone, :address, product_ids: [])
   end
 end
