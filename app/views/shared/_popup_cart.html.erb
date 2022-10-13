@@ -9,7 +9,7 @@
     <div class="flex justify-end">
       <button id="close" class="px-5 py-2 text-white bg-indigo-500 rounded-md cursor-pointer hover:bg-indigo-700">
           Close</button>
-      <% unless @cart.empty? %>
+      <% if @cart.present? %>
          <%= link_to 'Order', orders_path, class: "px-5 py-2 text-white bg-indigo-500 rounded-md cursor-pointer hover:bg-indigo-700"%>
       <% end %>
     </div>

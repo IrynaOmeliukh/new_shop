@@ -73,3 +73,9 @@ gem 'pry'
 gem 'devise'
 
 gem 'simple_form'
+
+gem 'simplecov', require: false, group: :test
+
+gem 'factory_bot_rails'
+
+gem 'stimulus-rails'
