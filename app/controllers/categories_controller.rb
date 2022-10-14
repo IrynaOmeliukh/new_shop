@@ -32,11 +32,6 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = resource
-    @products = Product.where(category_id: @category.id)
-    @products.each do |product|
-      product.destroy
-    end
-
     @category.destroy
     redirect_to categories_path, notice: 'Category was successfully destroyed.'
   end

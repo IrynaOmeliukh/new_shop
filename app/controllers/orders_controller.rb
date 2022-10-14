@@ -9,7 +9,12 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new orders_params
+    binding.pry
+    if current_user.nil?
+      @order = Order.new orders_params
+    else
+      @order = current_user.orders.build(order_params)
+    end
     if @order.save
       redirect_to orders_path, notice: 'Order was successfully created.'
     else

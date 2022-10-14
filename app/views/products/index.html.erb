@@ -13,40 +13,27 @@
   </div>
 </div>
 </main>
-import { Controller } from "@hotwired/stimulus"
 
-export default class extends Controller {
-  static targets = ["modal"]
-
-  open(event) {
-    event.preventDefault();
-
-    this.modalTarget.showModal();
-  }
-
-  close(event) {
-    event.preventDefault();
-
-    this.modalTarget.close();
-  }
-}
 
 <div data-controller="modal">
-  <button data-action="modal#open" class="btn-outline">Open modal</button>
-
+  <button data-action="modal#open" class="btn-outline">Shopping Cart</button>
   <dialog data-modal-target="modal">
     <button type="button" data-action="modal#close" class="absolute top-4 right-4">X</button>
 
-    <h1>Reset your password</h1>
+    <h1>Shopping cart</h1>
 
     <hr class="mb-4">
 
     <form class="space-y-4">
-      <label>Email</label>
-      <input type="text">
+      <%= render 'shared/cart' %>
 
-      <button type="button" data-action="modal#close" class="btn-outline">Close</button>
-      <button type="button" class="btn-blue">Reset Password</button>
+      <div class="flex justify-end">
+      <button type="button" data-action="modal#close" class="px-5 py-2 text-white bg-indigo-500 rounded-md cursor-pointer hover:bg-indigo-700">
+          Close</button>
+      <% if @cart.present? %>
+         <%= link_to 'Order', orders_path, class: "px-5 py-2 text-white bg-indigo-500 rounded-md cursor-pointer hover:bg-indigo-700"%>
+      <% end %>
+    </div>
     </form>
   </dialog>
 </div>
