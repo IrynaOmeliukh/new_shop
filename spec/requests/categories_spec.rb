@@ -1,35 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe '/categories', type: :request do
-
+RSpec.describe 'CategoriesController', type: :request do
   let!(:category) { create(:category) }
-
-  let(:valid_attributes) do {
-    category: { name: 'Books' }
-    }
-  end
-
-  let(:invalid_attributes) do {
-    category: { name: '' }
-    }
-  end
-
-  let(:new_attributes) do {
-    category: { name: 'Phones' }
-    }
-  end
+  let(:valid_attributes) { { category: { name: 'Books' } } }
+  let(:invalid_attributes) { { category: { name: '' } } }
+  let(:new_attributes) { { category: { name: 'Phones' } } }
 
   describe "GET /index" do
     it "renders a successful response" do
       get categories_path
+
       expect(response).to be_successful
     end
   end
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      get categories_path(category)
+      get category_path(category)
+
       expect(response).to be_successful
+      expect(response).to render_template(:show)
+      expect(response.body).to include(category.name)
     end
   end
 
@@ -48,17 +39,14 @@ RSpec.describe '/categories', type: :request do
   end
 
   describe 'POST :create' do
-    context 'with invalid parameters' do
-      it 'creates a new Category' do
+    context 'with valid parameters' do
+      it 'is successfull' do
         expect do
           post categories_url, params: valid_attributes
         end.to change(Category, :count).by(1)
-      end
 
-      it 'redirects to the created Category' do
-        post categories_path, params: valid_attributes
-        # expect(response).to be_successful
         expect(response).to redirect_to(categories_path)
+        expect(flash[:notice]).to eq('Category was successfully created.')
       end
     end
 
@@ -79,26 +67,25 @@ RSpec.describe '/categories', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       it 'updates the requested post' do
+        patch category_url(category), params: new_attributes
         category.reload
-        expect do
-          patch category_url(category), params: new_attributes
-        end.to change(Category, :count).by(1)
-        # skip('Add assertions for updated state')
-
+        expect(category.name).to eq('Phones')
       end
 
       it 'redirects to the post' do
         patch category_url(category), params: new_attributes
-        category.reload
         expect(response).to redirect_to(categories_path)
+        expect(flash[:notice]).to eq('Category was successfully updated.')
       end
     end
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        # whyyyy ???????????????????????????????????????? whyyyy ?????????
-        patch category_url(category), params: invalid_attributes
-        expect(response).to be_successful
+        expect do
+          patch category_url(category), params: invalid_attributes
+        end.not_to change(category, :name)
+        expect(response).to be_unprocessable
+        expect(response).to render_template(:edit)
       end
     end
   end
@@ -110,9 +97,10 @@ RSpec.describe '/categories', type: :request do
       end.to change(Category, :count).by(-1)
     end
 
-    it 'redirects to the posts list' do
+    it 'redirects to the category list' do
       delete category_url(category)
       expect(response).to redirect_to(categories_url)
+      expect(flash[:notice]).to eq('Category was successfully destroyed.')
     end
   end
 end

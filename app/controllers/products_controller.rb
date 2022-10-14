@@ -3,7 +3,6 @@ class ProductsController < ApplicationController
   def index
     @products = collection
     # @cart = initialize_cart
-
     @order = initialize_order
   end
 
@@ -89,6 +88,6 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.require(:product).permit(:name, :category_id, :price, :status)
+    params.require(:product).permit(:name, :category_id, :price, :description, :status)
   end
 end

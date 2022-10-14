@@ -1,11 +1,6 @@
 class Product < ApplicationRecord
-  enum :status, {
-    'Out of stock': 'out_of_stock',
-    'In stock': 'in_stock',
-    'Running low': 'running_low'
-    }, default: 'in_stock'
 
-  belongs_to :category
+  belongs_to :category, optional: true
   has_and_belongs_to_many :orders
 
   validates :name, presence: true, length: { in: 3..20 }

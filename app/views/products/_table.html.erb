@@ -11,9 +11,6 @@
         Price
       </th>
       <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
-        Status
-      </th>
-      <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
         Action
       </th>
     </tr>
@@ -24,14 +21,16 @@
         <td class="px-4 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
           <%= product.name %>
         </td>
+        <% if product.category.nil? %>
         <td class="px-4 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-          <%= Category.find(product.category_id).name %>
         </td>
+        <% else %>
+        <td class="px-4 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
+          <%= product.category.name %>
+        </td>
+        <% end %>
         <td class="px-4 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
           <%= number_to_currency(product.price, unit: "₴", delimiter: " ", format: "%n %u") %>
-        </td>
-        <td class="px-4 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-          <%= product.status %>
         </td>
         <td class="px-4 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
           <% if action_name != "show" %>

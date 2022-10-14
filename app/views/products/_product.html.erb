@@ -1,54 +1,18 @@
-<div id="<%= dom_id product %>" data-controller="hello">
+<div id="<%= dom_id product %>">
 
-  <div class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <table class="min-w-full text-center">
-          <thead class="border-b">
-            <tr>
-              <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
-                Name
-              </th>
-              <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
-                Category
-              </th>
-              <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
-                Price
-              </th>
-              <th scope="col" class="px-6 py-4 text-sm font-medium text-gray-900">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="bg-indigo-100 border-b border-indigo-200">
-              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                <%= product.name %>
-              </td>
-              <td class="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-                <%= Category.find(product.category_id).name %>
-              </td>
-              <td class="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-                <%= product.price %>
-              </td>
-              <td class="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-                <%= product.status %>
-              </td>
-              <td class="px-6 py-4 text-sm font-light text-gray-900 whitespace-nowrap">
-                <% if action_name != "show" %>
-                <%= link_to "Show this product", product%>
-                <br>
-                <%= link_to 'Edit this product', edit_product_path(product) %>
-                <br>
-                <%= button_tag 'Add to cart', data: { action: 'click->hello#toggleToCart'} %>
-                <% end %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="flex justify-center my-5">
+    <div class="bg-slate-100  rounded-2xl border-2 shadow-x3 p-10 max-w-5xl">
+      <div class="flex flex-col items-center space-y-4">
+        <h3>Name: <%= product.name %></h3>
+        <h3>Category: <%= Category.find(product.category_id).name %></h3>
+        <h3>Prise: <%= product.price %></h3>
+
+        <div class="text-center">
+          <%= link_to "Edit this product", edit_product_path(@product) %> |
+          <%= link_to "Back to products", products_path %>
+          <%= button_to "Destroy this product", @product, method: :delete,  data: { confirm: 'Are you sure?' } %>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

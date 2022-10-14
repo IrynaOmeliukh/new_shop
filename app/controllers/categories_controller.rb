@@ -26,7 +26,7 @@ class CategoriesController < ApplicationController
     if @category.update categories_params
       redirect_to categories_path, notice: 'Category was successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
