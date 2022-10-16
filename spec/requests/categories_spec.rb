@@ -14,16 +14,6 @@ RSpec.describe 'CategoriesController', type: :request do
     end
   end
 
-  describe 'GET /show' do
-    it 'renders a successful response' do
-      get category_path(category)
-
-      expect(response).to be_successful
-      expect(response).to render_template(:show)
-      expect(response.body).to include(category.name)
-    end
-  end
-
   describe 'GET /new' do
     it 'renders a successful response' do
       get new_category_path

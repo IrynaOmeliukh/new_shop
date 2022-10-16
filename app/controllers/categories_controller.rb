@@ -36,10 +36,6 @@ class CategoriesController < ApplicationController
     redirect_to categories_path, notice: 'Category was successfully destroyed.'
   end
 
-  def show
-    @category = resource
-  end
-
   private
 
   def collection

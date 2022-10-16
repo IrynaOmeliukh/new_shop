@@ -13,7 +13,6 @@ class OrdersController < ApplicationController
     end
   end
 
-
   private
 
   def orders_params

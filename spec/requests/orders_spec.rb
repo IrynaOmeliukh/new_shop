@@ -5,16 +5,16 @@ RSpec.describe 'OrdersController', type: :request do
   let!(:product) { create(:product) }
   let!(:valid_params) do
     {
-      first_name: 'Books', last_name: 'Books', address: 'Books', phone: '5435345', product_ids: [product.id]
+      first_name: 'Iryna',
+      last_name: 'Om',
+      address: 'Books',
+      phone: '5435345',
+      product_ids: [product.id]
     }
   end
-  let!(:invalid_params) do
-    {
-      order: { first_name: '' }
-    }
-  end
+  let!(:invalid_params) { { order: { first_name: '' } } }
 
-  describe 'GET /index' do
+  describe 'GET :index' do
     it 'returns http success' do
       get orders_path
 
@@ -22,7 +22,7 @@ RSpec.describe 'OrdersController', type: :request do
     end
   end
 
-  describe 'POST /create' do
+  describe 'POST :create' do
     it 'creates success' do
       expect do
         post orders_url, params: valid_params

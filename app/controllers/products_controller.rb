@@ -49,13 +49,14 @@ class ProductsController < ApplicationController
   # DELETE /products/1 or /products/1.json
   def destroy
     @product = resource
-
-    id = params[:id].to_i
-    session[:cart].delete(id)
-
-    @product.destroy
-
-    redirect_to products_url, notice: 'Product was successfully destroyed.'
+    if session[:cart].exclude?(@product.id)
+      @product.destroy
+      flash[:notice] = 'Product was successfully destroyed.'
+      redirect_to root_path
+    else
+      flash[:notice] = 'The product cannot be removed, it is in the shopping cart.'
+      redirect_to root_path
+    end
   end
 
   def add_to_cart

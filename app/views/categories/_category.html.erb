@@ -5,8 +5,8 @@
         <h3>Name: <%= category.name %></h3>
 
         <div class="text-center">
-          <%= link_to "Edit this category", edit_category_path(category) %> |
-          <%= link_to "Show this category", category_path(category) %>
+          <%= link_to "Edit this category", edit_category_path(category) %>
+          <%# <%= link_to "Show this category", category_path(category) %>
           <%= button_to "Destroy this category", category, method: :delete,  data: { confirm: 'Are you sure?' } %>
         </div>
       </div>
