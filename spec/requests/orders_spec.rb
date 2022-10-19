@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'OrdersController', type: :request do
   let!(:order) { create(:order) }
-  let!(:product) { create(:product) }
-  let!(:valid_params) do
+  let(:product) { create(:product) }
+  let(:valid_params) do
     {
       first_name: 'Iryna',
       last_name: 'Om',
@@ -12,10 +12,10 @@ RSpec.describe 'OrdersController', type: :request do
       product_ids: [product.id]
     }
   end
-  let!(:invalid_params) { { order: { first_name: '' } } }
+  let(:invalid_params) { { order: { first_name: '' } } }
 
   describe 'GET :index' do
-    it 'returns http success' do
+    it 'is successful' do
       get orders_path
 
       expect(response).to have_http_status(:success)
@@ -23,7 +23,7 @@ RSpec.describe 'OrdersController', type: :request do
   end
 
   describe 'POST :create' do
-    it 'creates success' do
+    it 'is successful' do
       expect do
         post orders_url, params: valid_params
       end.to change(Order, :count).by(1)
@@ -31,7 +31,7 @@ RSpec.describe 'OrdersController', type: :request do
       expect(response).to have_http_status(:found)
     end
 
-    it 'creation failed' do
+    it 'is not successful' do
       expect do
         post orders_url, params: invalid_params
       end.to change(Order, :count).by(0)

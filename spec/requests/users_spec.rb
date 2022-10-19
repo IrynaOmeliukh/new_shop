@@ -4,7 +4,7 @@ RSpec.describe 'UsersController', type: :request do
   let(:user) { create(:user) }
 
   describe 'GET :show' do
-    it 'renders a successful response' do
+    it 'is successful' do
       get user_path(user)
 
       expect(response).to be_successful

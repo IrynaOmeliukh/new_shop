@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'ProductsController', type: :request do
-  let!(:category) { create(:category) }
+  let(:category) { create(:category) }
   let!(:product) { create(:product, category_id: category.id) }
-  let!(:product1) { create(:product, category_id: category.id) }
-  let!(:valid_attributes) do {
+  let(:product1) { create(:product, category_id: category.id) }
+  let(:valid_attributes) do {
     product: {
       name: 'Phone',
       category_id: category.id,
@@ -14,7 +14,7 @@ RSpec.describe 'ProductsController', type: :request do
     }
   end
 
-  let!(:invalid_attributes) do {
+  let(:invalid_attributes) do {
     product: {
       name: '1',
       price: 'cc',
@@ -23,16 +23,16 @@ RSpec.describe 'ProductsController', type: :request do
     }
   end
 
-  let!(:new_attributes) do {
-    product: {name: 'Kettle',
+  let(:new_attributes) do {
+    product: {name: :Kettle,
       category_id: category.id,
       price: 12334,
-      description: 'blaaaa2'}
+      description: :blaaaa2}
     }
   end
 
   describe 'GET :index' do
-    it 'renders a successful response' do
+    it 'is successful' do
       get products_path
 
       expect(response).to be_successful
@@ -40,7 +40,7 @@ RSpec.describe 'ProductsController', type: :request do
   end
 
   describe 'GET :show' do
-    it 'renders a successful response' do
+    it 'is successful' do
       get product_path(product)
 
       expect(response).to be_successful
@@ -50,14 +50,14 @@ RSpec.describe 'ProductsController', type: :request do
   end
 
   describe 'GET :new' do
-    it 'renders a successful response' do
+    it 'is successful' do
       get new_product_path
       expect(response).to be_successful
     end
   end
 
-  describe 'GET /edit' do
-    it 'render a successful response' do
+  describe 'GET :edit' do
+    it 'is successful' do
       get edit_product_path(product)
       expect(response).to be_successful
     end
@@ -85,7 +85,7 @@ RSpec.describe 'ProductsController', type: :request do
 
   describe 'PATCH :update' do
     context 'with valid parameters' do
-      it 'be successful' do
+      it 'is successful' do
         put product_url(product), params: new_attributes
         product.reload
         expect(product.name).to eq('Kettle')
@@ -95,7 +95,7 @@ RSpec.describe 'ProductsController', type: :request do
     end
 
     context 'with invalid parameters' do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it 'is not successful' do
         expect do
           patch product_url(product), params: invalid_attributes
         end.not_to change(product, :name)
@@ -106,19 +106,15 @@ RSpec.describe 'ProductsController', type: :request do
   end
 
   describe 'DELETE :destroy' do
-    it 'destroys the requested product' do
+    it 'is successful' do
       expect do
         delete product_url(product)
       end.to change(Product, :count).by(-1)
-    end
-
-    it 'redirects to the product list' do
-      delete product_url(product)
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq('Product was successfully destroyed.')
     end
 
-    it 'not allow to delete product that ic in the cart' do
+    it 'is not successful' do
       post add_to_cart_path(product)
       delete product_url(product)
       expect(flash[:notice]).to eq('The product cannot be removed, it is in the shopping cart.')
